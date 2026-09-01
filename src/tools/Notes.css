@@ -240,14 +240,14 @@
 
 /* --- The canvas ------------------------------------------------------------ */
 
-.canvas-wrap {
+.note-view {
   flex: 1;
   min-width: 0;
   min-height: 0;
   overflow-y: auto;
 }
 
-.canvas {
+.note-page {
   max-width: 68ch;
   margin: 0 auto;
   padding: var(--s-48) var(--s-32) var(--s-96);
@@ -474,7 +474,7 @@
 
 /* --- Dialogs ---------------------------------------------------------------- */
 
-.scrim {
+.note-scrim {
   position: fixed;
   inset: 0;
   z-index: 20;
@@ -486,7 +486,7 @@
   animation: scrim-in var(--dur-mid) var(--ease-out);
 }
 
-.dialog {
+.note-dialog {
   width: 100%;
   max-width: 420px;
   padding: var(--s-24);
@@ -495,7 +495,7 @@
   background: var(--dust);
 }
 
-.dialog-title {
+.note-dialog-title {
   margin: 0;
   font-size: var(--text-title);
   font-weight: 600;
@@ -503,27 +503,17 @@
   color: var(--starlight);
 }
 
-.dialog-body {
+.note-dialog-body {
   margin: var(--s-12) 0 var(--s-24);
   font-size: var(--text-body);
   line-height: 1.6;
   color: var(--moonlight);
 }
 
-.dialog-actions {
+.note-dialog-actions {
   display: flex;
   justify-content: flex-end;
   gap: var(--s-8);
-}
-
-.button--danger {
-  background: transparent;
-  border-color: var(--flare);
-  color: var(--flare);
-}
-
-.button--danger:hover {
-  background: rgb(232 121 107 / 0.12);
 }
 
 .notes-undo {
@@ -553,11 +543,11 @@
     border-bottom: 1px solid var(--horizon);
   }
 
-  .canvas-wrap {
+  .note-view {
     display: none;
   }
 
-  .canvas-wrap[data-open="true"] {
+  .note-view[data-open="true"] {
     display: block;
     flex: 1;
   }
@@ -565,12 +555,12 @@
   /* Once a page is open the tree gives up most of the screen to it, and the
      breadcrumb walks back up. Without :has support both simply share the
      column, which is a worse layout but not a broken one. */
-  .notes-body:has(.canvas-wrap[data-open="true"]) .tree {
+  .notes-body:has(.note-view[data-open="true"]) .tree {
     flex: 0 0 auto;
     max-height: 38vh;
   }
 
-  .canvas {
+  .note-page {
     padding: var(--s-24) var(--s-16) var(--s-64);
   }
 

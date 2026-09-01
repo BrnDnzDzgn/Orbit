@@ -192,6 +192,7 @@ Borders (Horizon) define edges where two surfaces meet at the same level. Shadow
 - Write in plain sentence case; name tools by what they do.
 
 **Don't**
+- Don't define the same bare class in two stylesheets. Every sheet is bundled into one global one, so a class name is a global identifier and the later file silently wins — this is how the app shell's `.canvas` was overwritten by a tool's, collapsing every canvas to zero width. Scope it to the tool (`.note-page`, `.timer-controls`) or, if it is genuinely shared, put it in `src/components.css`.
 - No pure black (`#000`) or pure white (`#FFF`) — always the tinted versions.
 - No ALL-CAPS labels, no tracked-out eyebrows, no single-word headline accents.
 - No Inter-for-everything; body/UI is Inter Tight, display is Space Grotesk.

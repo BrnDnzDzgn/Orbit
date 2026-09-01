@@ -235,7 +235,7 @@ export default function Notes() {
           </div>
         </nav>
 
-        <div className="canvas-wrap" data-open={String(Boolean(selected))}>
+        <div className="note-view" data-open={String(Boolean(selected))}>
           {selected ? (
             selected.type === "page" ? (
               <Page key={selected.id} node={selected} notes={notes} onOpen={open} />
@@ -433,7 +433,7 @@ function Shelf({ node, notes, onOpen, onNewPage }) {
   const pages = childrenOf(notes, node.id);
 
   return (
-    <div className="canvas">
+    <div className="note-page">
       <div className="page-head">
         <Breadcrumb notes={notes} id={node.id} onOpen={onOpen} />
         <TitleField key={node.id} node={node} />
@@ -489,7 +489,7 @@ function Page({ node, notes, onOpen }) {
   };
 
   return (
-    <div className="canvas">
+    <div className="note-page">
       <div className="page-head">
         <Breadcrumb notes={notes} id={node.id} onOpen={onOpen} />
         <div className="page-head-row">
@@ -678,11 +678,11 @@ function Block({ block, index, first, only, registerRef, onInput, onKeyDown }) {
 function ConfirmDelete({ node, count, onCancel, onConfirm }) {
   return (
     <Dialog title={`Delete “${displayTitle(node)}”?`} onCancel={onCancel}>
-      <p className="dialog-body">
+      <p className="note-dialog-body">
         It holds {plural(count, "page")}, and they go with it. You can undo for nine seconds
         afterwards &mdash; after that this cannot be recovered.
       </p>
-      <div className="dialog-actions">
+      <div className="note-dialog-actions">
         <button type="button" className="button button--secondary" onClick={onCancel}>
           Keep it
         </button>
@@ -700,8 +700,8 @@ function ConfirmImport({ parsed, notes, onCancel, onConfirm }) {
   if (!parsed.ok) {
     return (
       <Dialog title="That file couldn't be read" onCancel={onCancel}>
-        <p className="dialog-body">{parsed.error} Nothing has been changed.</p>
-        <div className="dialog-actions">
+        <p className="note-dialog-body">{parsed.error} Nothing has been changed.</p>
+        <div className="note-dialog-actions">
           <button type="button" className="button button--secondary" onClick={onCancel}>
             Close
           </button>
@@ -712,13 +712,13 @@ function ConfirmImport({ parsed, notes, onCancel, onConfirm }) {
 
   return (
     <Dialog title="Replace everything with this file?" onCancel={onCancel}>
-      <p className="dialog-body">
+      <p className="note-dialog-body">
         The file holds {plural(parsed.notebooks, "notebook")} and {plural(parsed.pages, "page")}.
         Importing replaces what is here now
         {existing > 0 ? ` — all ${plural(existing, "item")} of it` : ""}, and that cannot be undone.
         Export first if you are not sure.
       </p>
-      <div className="dialog-actions">
+      <div className="note-dialog-actions">
         <button type="button" className="button button--secondary" onClick={onCancel}>
           Cancel
         </button>
@@ -740,15 +740,15 @@ function Dialog({ title, children, onCancel }) {
   }, [onCancel]);
 
   return (
-    <div className="scrim" role="presentation" onClick={onCancel}>
+    <div className="note-scrim" role="presentation" onClick={onCancel}>
       <div
-        className="dialog"
+        className="note-dialog"
         role="dialog"
         aria-modal="true"
         aria-label={title}
         onClick={(event) => event.stopPropagation()}
       >
-        <h2 className="dialog-title">{title}</h2>
+        <h2 className="note-dialog-title">{title}</h2>
         {children}
       </div>
     </div>
@@ -757,7 +757,7 @@ function Dialog({ title, children, onCancel }) {
 
 function Welcome({ hasNotebooks, onNew }) {
   return (
-    <div className="canvas welcome">
+    <div className="note-page welcome">
       <h2 className="welcome-title">A quiet place to write.</h2>
       <p className="welcome-body">
         {hasNotebooks

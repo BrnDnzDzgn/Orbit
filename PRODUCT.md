@@ -131,6 +131,16 @@ Corollary: any tool added to Orbit must earn its place by belonging to the same 
 
 Lifting it surfaced a live bug: `.controls` was defined in **both** Timer.css and Dailies.css with different values, and because Dailies loads later it was silently winning — the timer's Start/Reset row was being drawn with the composer's `flex-wrap`, `gap: 16px 24px`, and a `16px` top margin instead of its own `gap: 12px`. Timer's is now `.timer-controls`. It was the only cross-file class collision; the rest of the shipped CSS is rule-for-rule identical, verified by diffing the built stylesheet before and after (304 rules each, one changed selector).
 
+**Verification** (added 2026-09-01, after a shipped layout regression) — `npm run verify` runs lint, the CSS collision check, the build, and a real-browser layout check in that order.
+
+All of Orbit's CSS is bundled into one global sheet, so a class name is a global identifier. Notes defined a bare `.canvas` for its page column; `.canvas` already belonged to the app shell's `<main>`. Notes loads later, so `max-width: 68ch; margin: 0 auto` merged onto the wrapper around *every* tool. Auto cross-axis margins cancel the `align-items: stretch` that was the canvas's only source of width, and because the shell's `.canvas` carries `container-type: size`, its contents cannot size it either — so the content box resolved to **0px** and all seven tools rendered as a 64px strip of padding with text wrapping one character per line.
+
+Lint, build, and the server-render smoke tests all passed, because none of them lay anything out. Two checks now close that:
+- [scripts/css-collisions.mjs](scripts/css-collisions.mjs) fails when the same *bare* class is defined in two stylesheets. Descendant refinements (`.cal-nav .text-button`) and media-query redeclarations in the same file are deliberate and pass. No dependencies, runs in milliseconds.
+- [scripts/layout-check.mjs](scripts/layout-check.mjs) serves the build, drives headless Chrome over the DevTools protocol, and asserts that each of the seven routes has a canvas filling the shell's main column. `--shot` writes a PNG per route to `/tmp` for an actual look.
+
+**Workflow note:** after any CSS change, load the running app. The build passing means the bundler was happy, not that the page is usable.
+
 **Known gap:** `.icon-button--small` (32px) and `.child-detach` (26px) fall under the 44px touch minimum DESIGN.md §9 sets, because they follow the `@media (pointer: coarse)` rule that widens `.icon-button` and override it. Pre-existing and deliberately preserved through the stylesheet lift rather than silently changed.
 
 **Hard constraints:**
@@ -156,7 +166,7 @@ Lifting it surfaced a live bug: `.controls` was defined in **both** Timer.css an
 ## Evidence on Hand
 
 - **No users, no usage data, no testimonials, no press, no case studies, no benchmarks, no pricing.** This is a pre-audience personal project. None of these may be fabricated or implied in any surface.
-- **No real brand assets.** `public/favicon.svg` and `public/icons.svg` are unrelated template debris from another project — a purple (`#863bff`) mark and a set of Bluesky/Discord/GitHub/X social icons, referenced nowhere in the source. `src/assets/hero.png`, `react.svg`, and `vite.svg` are likewise unused Vite scaffold files. Orbit has no logo, no icon, and no imagery of its own; treat all of the above as deletable, not as identity.
+- **`public/favicon.svg` is a real Orbit mark** — a Void square, a Horizon ring, and an Aurora arc, straight from the palette. (This entry previously described it as purple template debris; that was corrected 2026-09-01.) `public/icons.svg` *is* still debris: 5KB of Bluesky/Discord/GitHub/X icons referenced nowhere and shipping to production. `src/assets/hero.png`, `react.svg`, and `vite.svg` are likewise unused Vite scaffold files. Orbit has no logo, no icon, and no imagery of its own; treat all of the above as deletable, not as identity.
 - The only genuine product artifact is the running Pomodoro itself.
 
 ## Product Principles
