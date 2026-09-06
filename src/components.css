@@ -268,6 +268,94 @@
   color: var(--moonlight);
 }
 
+/* --- Modal dialogs ---------------------------------------------------------
+   Written three times before it was written once: the timer's settings, Notes'
+   delete-and-import confirmations, and Settings' restore and erase. Three
+   scoped copies of one pattern is the same signal the buttons and fields gave
+   earlier, so it lives here now.
+
+   The keyframes come with it. They were defined in Timer.css and used by two
+   other tools — a cross-file dependency in the animation namespace rather than
+   the class namespace, which is why the collision check never saw it. */
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-24);
+  background: rgb(10 12 18 / 0.6);
+  animation: scrim-in var(--dur-mid) var(--ease-out);
+}
+
+.dialog {
+  width: 100%;
+  max-width: 420px;
+  padding: var(--s-24);
+  border: 1px solid var(--horizon);
+  border-radius: var(--r-card);
+  background: var(--dust);
+  animation: dialog-in var(--dur-mid) var(--ease-out);
+}
+
+/* A dialog holding a form rather than a sentence: narrower, and roomier
+   inside, because fields need more air than prose does. */
+.dialog--narrow {
+  max-width: 360px;
+  padding: var(--s-32);
+}
+
+.dialog--wide {
+  max-width: 460px;
+}
+
+.dialog-title {
+  margin: 0 0 var(--s-12);
+  font-size: var(--text-title);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--starlight);
+}
+
+.dialog--narrow .dialog-title {
+  margin-bottom: var(--s-24);
+}
+
+.dialog-body {
+  margin: 0 0 var(--s-12);
+  font-size: var(--text-body);
+  line-height: 1.6;
+  color: var(--moonlight);
+}
+
+.dialog-body strong {
+  color: var(--starlight);
+  font-weight: 500;
+}
+
+.dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--s-8);
+  margin-top: var(--s-24);
+}
+
+@keyframes scrim-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+}
+
 /* --- Undo ------------------------------------------------------------------
    Sticks to the bottom of the scrolling list, so it is reachable whether or not
    the list has been scrolled. */

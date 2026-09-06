@@ -180,22 +180,22 @@ export default function Settings() {
 
       {pending && (
         <Dialog title="Replace everything with this backup?" onCancel={() => setPending(null)}>
-          <p className="set-dialog-body">
+          <p className="dialog-body">
             <strong>{pending.name}</strong> holds {describe(pending.counts)}.
           </p>
-          <p className="set-dialog-body">
+          <p className="dialog-body">
             {isEmpty
               ? "Nothing is stored here now, so nothing will be lost."
               : `It replaces what is here now — ${describe(here)} — and that cannot be undone.`}{" "}
             The timer will be stopped.
           </p>
           {pending.unknown.length > 0 && (
-            <p className="set-dialog-body set-dialog-body--quiet">
+            <p className="dialog-body dialog-body--quiet">
               It also carries {plural(pending.unknown.length, "entry")} this build doesn&rsquo;t
               recognise. They&rsquo;ll be restored untouched.
             </p>
           )}
-          <div className="set-dialog-actions">
+          <div className="dialog-actions">
             <button type="button" className="button button--secondary" onClick={() => setPending(null)}>
               Cancel
             </button>
@@ -214,7 +214,7 @@ export default function Settings() {
             setConfirmText("");
           }}
         >
-          <p className="set-dialog-body">
+          <p className="dialog-body">
             This erases {describe(here)}. It is irreversible &mdash; there is no undo and no copy
             anywhere else.
           </p>
@@ -230,7 +230,7 @@ export default function Settings() {
             value={confirmText}
             onChange={(event) => setConfirmText(event.target.value)}
           />
-          <div className="set-dialog-actions">
+          <div className="dialog-actions">
             <button
               type="button"
               className="button button--secondary"
@@ -259,15 +259,15 @@ export default function Settings() {
 
 function Dialog({ title, children, onCancel }) {
   return (
-    <div className="set-scrim" role="presentation" onClick={onCancel}>
+    <div className="scrim" role="presentation" onClick={onCancel}>
       <div
-        className="set-dialog"
+        className="dialog dialog--wide"
         role="dialog"
         aria-modal="true"
         aria-label={title}
         onClick={(event) => event.stopPropagation()}
       >
-        <h2 className="set-dialog-title">{title}</h2>
+        <h2 className="dialog-title">{title}</h2>
         {children}
       </div>
     </div>

@@ -678,11 +678,11 @@ function Block({ block, index, first, only, registerRef, onInput, onKeyDown }) {
 function ConfirmDelete({ node, count, onCancel, onConfirm }) {
   return (
     <Dialog title={`Delete “${displayTitle(node)}”?`} onCancel={onCancel}>
-      <p className="note-dialog-body">
+      <p className="dialog-body">
         It holds {plural(count, "page")}, and they go with it. You can undo for nine seconds
         afterwards &mdash; after that this cannot be recovered.
       </p>
-      <div className="note-dialog-actions">
+      <div className="dialog-actions">
         <button type="button" className="button button--secondary" onClick={onCancel}>
           Keep it
         </button>
@@ -700,8 +700,8 @@ function ConfirmImport({ parsed, notes, onCancel, onConfirm }) {
   if (!parsed.ok) {
     return (
       <Dialog title="That file couldn't be read" onCancel={onCancel}>
-        <p className="note-dialog-body">{parsed.error} Nothing has been changed.</p>
-        <div className="note-dialog-actions">
+        <p className="dialog-body">{parsed.error} Nothing has been changed.</p>
+        <div className="dialog-actions">
           <button type="button" className="button button--secondary" onClick={onCancel}>
             Close
           </button>
@@ -712,13 +712,13 @@ function ConfirmImport({ parsed, notes, onCancel, onConfirm }) {
 
   return (
     <Dialog title="Replace everything with this file?" onCancel={onCancel}>
-      <p className="note-dialog-body">
+      <p className="dialog-body">
         The file holds {plural(parsed.notebooks, "notebook")} and {plural(parsed.pages, "page")}.
         Importing replaces what is here now
         {existing > 0 ? ` — all ${plural(existing, "item")} of it` : ""}, and that cannot be undone.
         Export first if you are not sure.
       </p>
-      <div className="note-dialog-actions">
+      <div className="dialog-actions">
         <button type="button" className="button button--secondary" onClick={onCancel}>
           Cancel
         </button>
@@ -740,15 +740,15 @@ function Dialog({ title, children, onCancel }) {
   }, [onCancel]);
 
   return (
-    <div className="note-scrim" role="presentation" onClick={onCancel}>
+    <div className="scrim" role="presentation" onClick={onCancel}>
       <div
-        className="note-dialog"
+        className="dialog"
         role="dialog"
         aria-modal="true"
         aria-label={title}
         onClick={(event) => event.stopPropagation()}
       >
-        <h2 className="note-dialog-title">{title}</h2>
+        <h2 className="dialog-title">{title}</h2>
         {children}
       </div>
     </div>

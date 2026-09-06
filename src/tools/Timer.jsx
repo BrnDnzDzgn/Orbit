@@ -233,7 +233,7 @@ function SettingsDialog({ settings, locked, onClose }) {
       }}
     >
       <div
-        className="dialog"
+        className="dialog dialog--narrow"
         role="dialog"
         aria-modal="true"
         aria-labelledby="settings-title"

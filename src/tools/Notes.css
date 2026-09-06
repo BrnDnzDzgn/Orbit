@@ -472,50 +472,6 @@
   margin-top: var(--s-32);
 }
 
-/* --- Dialogs ---------------------------------------------------------------- */
-
-.note-scrim {
-  position: fixed;
-  inset: 0;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--s-24);
-  background: rgb(10 12 18 / 0.6);
-  animation: scrim-in var(--dur-mid) var(--ease-out);
-}
-
-.note-dialog {
-  width: 100%;
-  max-width: 420px;
-  padding: var(--s-24);
-  border: 1px solid var(--horizon);
-  border-radius: var(--r-card);
-  background: var(--dust);
-}
-
-.note-dialog-title {
-  margin: 0;
-  font-size: var(--text-title);
-  font-weight: 600;
-  line-height: 1.25;
-  color: var(--starlight);
-}
-
-.note-dialog-body {
-  margin: var(--s-12) 0 var(--s-24);
-  font-size: var(--text-body);
-  line-height: 1.6;
-  color: var(--moonlight);
-}
-
-.note-dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--s-8);
-}
-
 .notes-undo {
   position: absolute;
   left: 50%;

@@ -101,56 +101,9 @@
   gap: var(--s-12);
 }
 
-/* --- Dialogs ---------------------------------------------------------------
-   Scoped to this tool. The timer and notes each carry their own; three copies
-   of the same pattern is the signal that a shared dialog belongs in
-   components.css, which is a separate change from this one. */
-
-.set-scrim {
-  position: fixed;
-  inset: 0;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--s-24);
-  background: rgb(10 12 18 / 0.6);
-  animation: scrim-in var(--dur-mid) var(--ease-out);
-}
-
-.set-dialog {
-  width: 100%;
-  max-width: 460px;
-  padding: var(--s-24);
-  border: 1px solid var(--horizon);
-  border-radius: var(--r-card);
-  background: var(--dust);
-}
-
-.set-dialog-title {
-  margin: 0 0 var(--s-12);
-  font-size: var(--text-title);
-  font-weight: 600;
-  line-height: 1.25;
-  color: var(--starlight);
-}
-
-.set-dialog-body {
-  margin: 0 0 var(--s-12);
-  font-size: var(--text-body);
-  line-height: 1.6;
-  color: var(--moonlight);
-}
-
-.set-dialog-body strong {
-  color: var(--starlight);
-  font-weight: 500;
-}
-
-.set-dialog-body--quiet {
-  font-size: var(--text-caption);
-  color: var(--comet);
-}
+/* --- The type-to-confirm control -------------------------------------------
+   Everything else about this dialog is the shared one in components.css; only
+   the confirmation input is particular to erasing. */
 
 .set-dialog-label {
   display: block;
@@ -177,14 +130,6 @@
   font-weight: 400;
 }
 
-.set-dialog-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: var(--s-8);
-  margin-top: var(--s-24);
-}
-
 .button:disabled {
   opacity: 0.45;
   cursor: not-allowed;
@@ -200,7 +145,7 @@
   }
 
   .panel-actions .button,
-  .set-dialog-actions .button {
+  .dialog-actions .button {
     flex: 1;
   }
 }
