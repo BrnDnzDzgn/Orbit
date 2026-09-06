@@ -31,7 +31,7 @@ Corollary: any tool added to Orbit must earn its place by belonging to the same 
 - Opened at the start of a work or study session and left running, visible but not attended to. Long dwell time, low interaction rate.
 - Frequently a background or secondary window: glanceability at distance and in peripheral vision matters more than information density.
 - Audio is part of the product's contract with the user — phase changes are announced by generated chimes, because the user is by definition not looking at the screen when a phase ends. Sound is mutable.
-- Runs in the browser on desktop and mobile web. It is deployed as a static site to GitHub Pages under the path `/ProductivityApp/`.
+- Runs in the browser on desktop and mobile web. It is deployed as a static site to GitHub Pages at `https://brndnzdzgn.github.io/Orbit/`; `base` in [vite.config.js](vite.config.js) must match the repository name, since it is compiled into the built asset URLs.
 - Tools are added incrementally. Every tool ships into an existing product that people may already be using, so the shell and shared conventions have to hold still.
 
 ## Capabilities and Constraints
@@ -133,7 +133,7 @@ Corollary: any tool added to Orbit must earn its place by belonging to the same 
 
 **Tool sequence:** dailies shipped second (chosen 2026-08-31), then the session log, then Activity, then Calendar, then Goals, then Habits, then Notes (all 2026-08-31), then Settings (2026-09-06). The roadmap in DESIGN.md §11 is complete; Settings was added after it, and is about the app rather than in it. Skills was considered and cut.
 
-**Still outstanding:** the repository, page title, and deploy path still read "ProductivityApp"/"productivityapp" rather than Orbit, and there is no landing page — the two brand-surface jobs, neither of which is a tool.
+**Still outstanding:** there is no landing page — the one brand-surface job left, and not a tool. The ProductivityApp → Orbit rename was completed 2026-09-06.
 
 **Rail order** is Timer · Dailies · Goals · Calendar · Habits · Activity · Notes · Settings — the two tools you write intentions into, then the three that read them back, then Notes, which is last because it is the one tool that reads nothing from the others. Goals took the `Target` icon, freed for it when the old Goals tool became Dailies.
 
@@ -169,14 +169,14 @@ Lint, build, and the server-render smoke tests all passed, because none of them 
 
 ## Brand Commitments
 
-- The product is named **Orbit**. The repository, page title, and deploy path still read "ProductivityApp" / "productivityapp"; these are scaffold leftovers, not the name.
+- The product is named **Orbit**, and as of 2026-09-06 the repository, package name, page title, and deploy path all say so. The old `ProductivityApp` Pages URL was allowed to die rather than redirected; it had never been shared.
 - [DESIGN.md](DESIGN.md) is the committed visual authority for the product and its two-lane (brand vs. product surface) structure. Visual decisions belong there, not here.
 - No confirmed voice or tone guidance beyond what DESIGN.md's copy rules imply. Undecided.
 
 ## Evidence on Hand
 
 - **No users, no usage data, no testimonials, no press, no case studies, no benchmarks, no pricing.** This is a pre-audience personal project. None of these may be fabricated or implied in any surface.
-- **`public/favicon.svg` is a real Orbit mark** — a Void square, a Horizon ring, and an Aurora arc, straight from the palette. (This entry previously described it as purple template debris; that was corrected 2026-09-01.) `public/icons.svg` *is* still debris: 5KB of Bluesky/Discord/GitHub/X icons referenced nowhere and shipping to production. `src/assets/hero.png`, `react.svg`, and `vite.svg` are likewise unused Vite scaffold files. Orbit has no logo, no icon, and no imagery of its own; treat all of the above as deletable, not as identity.
+- **`public/favicon.svg` is a real Orbit mark** — a Void square, a Horizon ring, and an Aurora arc, straight from the palette. (This entry previously described it as purple template debris; that was corrected 2026-09-01.) `public/icons.svg` was the genuine debris — 5KB of Bluesky/Discord/GitHub/X icons referenced nowhere and shipping to production — and was deleted 2026-09-06. `src/assets/hero.png`, `react.svg`, and `vite.svg` are likewise unused Vite scaffold files, still present. Beyond the favicon, Orbit has no logo and no imagery of its own.
 - The only genuine product artifact is the running Pomodoro itself.
 
 ## Product Principles

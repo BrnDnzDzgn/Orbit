@@ -8,7 +8,7 @@
  *
  * Usage:  npm run preview &  then  node scripts/layout-check.mjs [--shot]
  */
-const BASE = process.env.ORBIT_URL ?? "http://localhost:4173/ProductivityApp/";
+const BASE = process.env.ORBIT_URL ?? "http://localhost:4173/Orbit/";
 const ROUTES = ["timer", "dailies", "goals", "calendar", "habits", "activity", "notes", "settings"];
 const VIEWPORT = { width: 1280, height: 800 };
 const shot = process.argv.includes("--shot");
@@ -121,6 +121,15 @@ for (const route of ROUTES) {
   await wait(700);
   const m = await evaluate(MEASURE);
   if (!m) { console.log(`${route.padEnd(9)}  (could not measure)`); failures += 1; continue; }
+
+  // A missing element means the page never rendered — a stale server on the
+  // port, a wrong base path, a crash. That has to fail loudly: comparing nulls
+  // coerces to `0 >= -2` and reported PASS on a site that was serving 404s.
+  if (!Number.isFinite(m.shellMain) || !Number.isFinite(m.canvas)) {
+    console.log(`${route.padEnd(9)}  NOTHING RENDERED — no .shell-main/.canvas on the page`);
+    failures += 1;
+    continue;
+  }
 
   // The canvas should take essentially everything the shell's main column has.
   const expected = m.shellMain;
