@@ -9,7 +9,7 @@
  * Usage:  npm run preview &  then  node scripts/layout-check.mjs [--shot]
  */
 const BASE = process.env.ORBIT_URL ?? "http://localhost:4173/ProductivityApp/";
-const ROUTES = ["timer", "dailies", "goals", "calendar", "habits", "activity", "notes"];
+const ROUTES = ["timer", "dailies", "goals", "calendar", "habits", "activity", "notes", "settings"];
 const VIEWPORT = { width: 1280, height: 800 };
 const shot = process.argv.includes("--shot");
 

@@ -287,6 +287,25 @@ export function resetTimer() {
   sessionStore.set(freshSession(settingsStore.get()));
 }
 
+/**
+ * Returns the timer to idle after the ground moves underneath it — a restored
+ * backup or a wipe.
+ *
+ * A restored session is a fiction: it carries wall-clock timestamps from
+ * whenever the backup was taken, and letting the clock resume against them
+ * would walk it across every phase boundary in the gap and fire completion
+ * events for focus blocks that never happened. Those get logged as real
+ * sessions, so a restore would fabricate history.
+ *
+ * `persist: false` is for the delete-everything path, where writing a fresh
+ * session back would leave a key behind in a namespace that is meant to be
+ * empty.
+ */
+export function standDown({ persist = true } = {}) {
+  stopClock();
+  sessionStore.set(freshSession(settingsStore.get()), { persist });
+}
+
 export function updateSetting(key, value) {
   const next = sanitizeSettings({ ...settingsStore.get(), [key]: value });
   settingsStore.set(next);

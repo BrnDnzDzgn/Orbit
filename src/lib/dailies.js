@@ -18,7 +18,8 @@ const DAILIES_KEY = "dailies";
 const LEGACY_KEY = "goals";
 
 /** Storage schema. 1 = the lifetime model, 2 = per-day targets. */
-const VERSION = 2;
+export const SCHEMA_VERSION = 2;
+const VERSION = SCHEMA_VERSION;
 
 export const TITLE_MAX = 80;
 

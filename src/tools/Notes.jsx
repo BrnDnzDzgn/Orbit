@@ -30,10 +30,10 @@ import {
   useStorageHealth,
   writeDoc,
 } from "../lib/notes.js";
+import { downloadFile } from "../lib/download.js";
 import {
   applyImport,
   docToMarkdown,
-  downloadFile,
   exportFilename,
   parseImport,
   toJSON,

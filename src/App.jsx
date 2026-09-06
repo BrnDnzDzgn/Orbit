@@ -5,6 +5,7 @@ import {
   Footprints,
   NotebookPen,
   Repeat,
+  Settings as SettingsIcon,
   Target,
   Timer as TimerIcon,
 } from "lucide-react";
@@ -15,6 +16,7 @@ import GoalsTool from "./tools/Goals.jsx";
 import CalendarTool from "./tools/Calendar.jsx";
 import HabitsTool from "./tools/Habits.jsx";
 import NotesTool from "./tools/Notes.jsx";
+import SettingsTool from "./tools/Settings.jsx";
 import ActivityTool from "./tools/Activity.jsx";
 import { dailyForSession } from "./lib/dailies.js";
 import { countToday, recordSession, useSessions } from "./lib/sessions.js";
@@ -33,6 +35,8 @@ const TOOLS = [
   { id: "activity", label: "Activity", icon: ActivityIcon, Component: ActivityTool },
   // Notes sits last: it is the one tool that reads nothing from the others.
   { id: "notes", label: "Notes", icon: NotebookPen, Component: NotesTool },
+  // Last, and about the app rather than in it: backup, restore, and erase.
+  { id: "settings", label: "Settings", icon: SettingsIcon, Component: SettingsTool },
 ];
 
 export default function App() {

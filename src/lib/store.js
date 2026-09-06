@@ -50,6 +50,21 @@ export function createStore({ key, initial, hydrate, serialize }) {
       return key ? write() : false;
     },
 
+    /**
+     * Re-reads this store from storage and tells everyone watching.
+     *
+     * Goes back through the same `hydrate` the store used at load, so data
+     * arriving from a restored backup gets the identical sanitising and schema
+     * migration as data read at startup — an older record inside a backup is
+     * migrated on the way in, for free.
+     */
+    rehydrate() {
+      const raw = key ? load(key, null) : null;
+      state = hydrate ? hydrate(raw, initial) : (raw ?? initial);
+      for (const listener of listeners) listener();
+      return state;
+    },
+
     subscribe(listener) {
       listeners.add(listener);
       return () => listeners.delete(listener);

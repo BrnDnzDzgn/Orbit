@@ -27,7 +27,8 @@ import { load, remove, save } from "./storage.js";
 const TREE_KEY = "notes.tree";
 const DOC_PREFIX = "notes.doc.";
 
-const VERSION = 1;
+export const SCHEMA_VERSION = 1;
+const VERSION = SCHEMA_VERSION;
 
 export const TITLE_MAX = 120;
 export const BLOCK_TYPES = ["h1", "h2", "p", "li"];
@@ -405,6 +406,23 @@ export function demoteBlock(blocks, index) {
   const out = [...blocks];
   out[index] = { ...out[index], type: "p" };
   return out;
+}
+
+/**
+ * Drops every cached and queued document.
+ *
+ * `docCache` and `pending` live outside any store, so nothing about
+ * rehydrating the tree touches them — without this, a restore would show the
+ * new tree with the old page bodies still in it, and a queued write could land
+ * *after* the restore and resurrect a deleted page.
+ */
+export function resetDocCache() {
+  if (flushTimer !== null) {
+    clearTimeout(flushTimer);
+    flushTimer = null;
+  }
+  pending.clear();
+  docCache.clear();
 }
 
 /** Every document in the tree, for export. */
