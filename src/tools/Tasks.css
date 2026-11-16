@@ -1,0 +1,371 @@
+/* ---------------------------------------------------------------------------
+   Orbit — tasks
+   The plainest surface in the product: a list you add to, tick off, and leave.
+   Aurora appears twice — the add action, and the check on something you have
+   finished. Items under a task are smaller and quieter than the task itself,
+   and finished tasks move out of the way into a section that stays closed
+   until you ask for it.
+   --------------------------------------------------------------------------- */
+
+.tasks {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--s-32) var(--s-24) var(--s-64);
+}
+
+.tasks-column {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* --- Sections -------------------------------------------------------------- */
+
+.task-section {
+  margin-top: var(--s-32);
+}
+
+.task-section-note {
+  margin: 0;
+  font-size: var(--text-body);
+  color: var(--moonlight);
+}
+
+.task-list {
+  margin: 0;
+  padding: 0 var(--s-24);
+  list-style: none;
+  background: var(--nebula);
+  border: 1px solid var(--horizon);
+  border-radius: var(--r-card);
+}
+
+.task-list--done {
+  margin-top: var(--s-12);
+}
+
+/* The completed section's header doubles as its toggle. A count, not a
+   trophy — it says how much is in there, nothing more. */
+.task-done-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-8);
+  padding: var(--s-4) 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: var(--text-label);
+  font-weight: 500;
+  color: var(--moonlight);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-inout);
+}
+
+.task-done-toggle:hover {
+  color: var(--starlight);
+}
+
+.task-done-count {
+  color: var(--comet);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- A task ---------------------------------------------------------------- */
+
+.task {
+  padding: var(--s-16) 0;
+}
+
+.task + .task {
+  border-top: 1px solid var(--horizon);
+}
+
+.task-head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-12);
+}
+
+.task-check {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  padding: 0;
+  border: 1.5px solid var(--horizon);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--void);
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-inout),
+    border-color var(--dur-fast) var(--ease-inout);
+}
+
+.task-check:hover {
+  border-color: var(--aurora);
+}
+
+.task-check[aria-checked="true"] {
+  background: var(--aurora);
+  border-color: var(--aurora);
+}
+
+.task-check[aria-checked="true"]:hover {
+  background: var(--aurora-deep);
+  border-color: var(--aurora-deep);
+}
+
+.task-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.task-title {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: var(--text-body);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--starlight);
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: text;
+}
+
+.task-title:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--dust);
+  text-underline-offset: 4px;
+}
+
+/* Finished settles back and is struck through: unlike a goal, a to-do that's
+   done really is over. */
+.task[data-done="true"] .task-title {
+  color: var(--moonlight);
+  text-decoration: line-through;
+  text-decoration-color: var(--comet);
+}
+
+.task-meta {
+  margin: var(--s-4) 0 0;
+  font-size: var(--text-caption);
+  line-height: 1.4;
+  color: var(--moonlight);
+  font-variant-numeric: tabular-nums;
+}
+
+.task-actions {
+  display: flex;
+  flex: 0 0 auto;
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-inout);
+}
+
+.task:hover .task-actions,
+.task:focus-within .task-actions {
+  opacity: 1;
+}
+
+.task-rename {
+  display: flex;
+  align-items: center;
+  gap: var(--s-12);
+}
+
+.task-rename-input {
+  flex: 1;
+  min-width: 0;
+  height: 36px;
+  padding: 0 var(--s-12);
+  text-align: left;
+}
+
+/* --- Items under a task ----------------------------------------------------
+   Indented under their task with a hairline rule rather than a card of their
+   own — a card inside a card is the structural smell DESIGN.md warns about. */
+
+.sub-list {
+  margin: var(--s-12) 0 0 calc(20px + var(--s-12));
+  padding: 0 0 0 var(--s-12);
+  list-style: none;
+  border-left: 1px solid var(--horizon);
+}
+
+.sub {
+  display: flex;
+  align-items: center;
+  gap: var(--s-12);
+  min-height: 32px;
+}
+
+.sub-check {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 1.5px solid var(--horizon);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--void);
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-inout),
+    border-color var(--dur-fast) var(--ease-inout);
+}
+
+.sub-check:hover {
+  border-color: var(--moonlight);
+}
+
+/* Quieter than the task's own check: an item ticked off is a note crossed
+   out, not the thing itself finished. */
+.sub-check[aria-checked="true"] {
+  background: var(--moonlight);
+  border-color: var(--moonlight);
+}
+
+.sub-text {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: var(--s-4) 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: var(--text-label);
+  color: var(--starlight);
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: text;
+}
+
+.sub[data-done="true"] .sub-text {
+  color: var(--comet);
+  text-decoration: line-through;
+}
+
+.sub-input {
+  flex: 1;
+  min-width: 0;
+  height: 30px;
+  padding: 0 var(--s-8);
+  border: 1px solid var(--horizon);
+  border-radius: var(--s-8);
+  background: var(--deep-space);
+  color: var(--starlight);
+  font: inherit;
+  font-size: var(--text-label);
+}
+
+.sub-input:focus-visible {
+  outline: none;
+  border-color: var(--aurora);
+}
+
+.sub-input::placeholder {
+  color: var(--comet);
+}
+
+.sub-remove {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--s-4);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-inout);
+}
+
+.sub:hover .sub-remove,
+.sub:focus-within .sub-remove {
+  opacity: 1;
+}
+
+.sub-add {
+  margin: var(--s-8) 0 0 calc(20px + var(--s-12));
+}
+
+.sub-add .text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-4);
+  font-size: var(--text-label);
+  color: var(--moonlight);
+}
+
+.sub-add .text-button:hover {
+  color: var(--starlight);
+}
+
+.sub-add--open {
+  display: flex;
+  padding-left: calc(var(--s-12) + 1px);
+}
+
+/* Nothing hovers on a touch screen. */
+@media (pointer: coarse) {
+  .task-actions,
+  .sub-remove {
+    opacity: 1;
+  }
+
+  .task-check {
+    width: 24px;
+    height: 24px;
+  }
+
+  .sub-check {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* --- Empty state ----------------------------------------------------------- */
+
+.tasks-empty {
+  margin: var(--s-48) 0 0;
+  max-width: 46ch;
+}
+
+.tasks-empty-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-display-m);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--starlight);
+}
+
+.tasks-empty-body {
+  margin: var(--s-16) 0 0;
+  font-size: var(--text-body-l);
+  line-height: 1.6;
+  color: var(--moonlight);
+}
+
+/* --- Mobile ---------------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .tasks {
+    padding: var(--s-24) var(--s-16) var(--s-48);
+  }
+
+  .task-list {
+    padding: 0 var(--s-16);
+  }
+
+  .sub-list,
+  .sub-add {
+    margin-left: var(--s-16);
+  }
+}

@@ -2,6 +2,7 @@ import { keys as storageKeys, load, remove, save } from "./storage.js";
 import { SCHEMA_VERSION as DAILIES_SCHEMA, dailiesStore } from "./dailies.js";
 import { SCHEMA_VERSION as NOTES_SCHEMA, flushDocs, healthStore, notesStore, resetDocCache } from "./notes.js";
 import { goalsStore } from "./goals.js";
+import { SCHEMA_VERSION as TASKS_SCHEMA, tasksStore } from "./tasks.js";
 import { sessionsStore } from "./sessions.js";
 import { completionsStore } from "./completions.js";
 import { sessionStore, settingsStore, standDown } from "./timer.js";
@@ -42,6 +43,7 @@ const REGISTRY = [
   { key: "timer.session", store: sessionStore },
   { key: "dailies", store: dailiesStore, schema: DAILIES_SCHEMA },
   { key: "goals.list", store: goalsStore },
+  { key: "tasks", store: tasksStore, schema: TASKS_SCHEMA },
   { key: "sessions", store: sessionsStore },
   { key: "completions", store: completionsStore },
   { key: "notes.tree", store: notesStore, schema: NOTES_SCHEMA },
@@ -80,6 +82,7 @@ export function countsFrom(data) {
   return {
     dailies: arrayLength(data.dailies, "items"),
     goals: arrayLength(data["goals.list"], "items"),
+    tasks: arrayLength(data.tasks, "items"),
     sessions: arrayLength(data.sessions, "items"),
     notebooks: nodes.filter((node) => node && node.type === "notebook").length,
     pages: nodes.filter((node) => node && node.type !== "notebook").length,

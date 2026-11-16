@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import {
   dayLabel,
   monthCells,
@@ -12,6 +12,7 @@ import {
 import { useCompletions } from "../lib/completions.js";
 import { WEEKDAYS, useDailies } from "../lib/dailies.js";
 import { useSessions } from "../lib/sessions.js";
+import { doneOn, useTasks } from "../lib/tasks.js";
 import { useToday } from "../lib/today.js";
 import "./Calendar.css";
 
@@ -49,6 +50,7 @@ export default function Calendar() {
   const sessions = useSessions();
   const dailies = useDailies();
   const completions = useCompletions();
+  const tasks = useTasks();
   const today = useToday();
 
   const [month, setMonth] = useState(() => startOfMonth(today));
@@ -138,6 +140,7 @@ export default function Calendar() {
                 key={date}
                 date={date}
                 summary={summaries.get(date)}
+                tasksDone={doneOn(tasks, date)}
                 isToday={date === today}
                 selected={date === selected}
                 onSelect={() => setSelected(selected === date ? null : date)}
@@ -146,7 +149,13 @@ export default function Calendar() {
           )}
         </div>
 
-        {detail && <DayPanel detail={detail} onClose={() => setSelected(null)} />}
+        {detail && (
+          <DayPanel
+            detail={detail}
+            tasksDone={doneOn(tasks, detail.date)}
+            onClose={() => setSelected(null)}
+          />
+        )}
 
         {sessions.items.length === 0 && (
           <p className="cal-note">
@@ -159,7 +168,7 @@ export default function Calendar() {
   );
 }
 
-function Day({ date, summary, isToday, selected, onSelect }) {
+function Day({ date, summary, tasksDone, isToday, selected, onSelect }) {
   const dots = summary?.dots ?? [];
   const unattributed = summary?.unattributed ?? 0;
   // What the day has to show, which is not the same as what it logged: a daily
@@ -169,6 +178,7 @@ function Day({ date, summary, isToday, selected, onSelect }) {
   const names = [
     ...dots.map((dot) => `${dot.title}, ${dotLabel(dot).split(" · ").slice(1).join(", ")}`),
     unattributed > 0 ? `${plural(unattributed, "session")} not counted toward a daily` : null,
+    tasksDone.length > 0 ? `${plural(tasksDone.length, "to-do")} done` : null,
   ].filter(Boolean);
 
   return (
@@ -219,6 +229,15 @@ function Day({ date, summary, isToday, selected, onSelect }) {
           <span className="cal-baseline" />
         )}
       </span>
+
+      {/* To-dos are not dailies, so they don't borrow the dots: a neutral tick
+          and a count, set apart at the foot of the day. */}
+      {tasksDone.length > 0 && (
+        <span className="cal-tasks" title={`${plural(tasksDone.length, "to-do")} done`} aria-hidden="true">
+          <Check size={11} />
+          {tasksDone.length}
+        </span>
+      )}
     </button>
   );
 }
@@ -228,7 +247,7 @@ function Day({ date, summary, isToday, selected, onSelect }) {
  * because completing a daily belongs to the Dailies tool and only ever happens
  * on the day itself.
  */
-function DayPanel({ detail, onClose }) {
+function DayPanel({ detail, tasksDone, onClose }) {
   const { date, sessions, minutes, dots, unattributed } = detail;
 
   return (
@@ -273,6 +292,22 @@ function DayPanel({ detail, onClose }) {
                 <span className="cal-panel-count">{plural(unattributed, "session")}</span>
               </li>
             )}
+          </ul>
+        </>
+      )}
+
+      {tasksDone.length > 0 && (
+        <>
+          <p className="cal-panel-summary cal-panel-tasks-head">
+            {plural(tasksDone.length, "to-do")} done
+          </p>
+          <ul className="cal-panel-list">
+            {tasksDone.map((task) => (
+              <li key={task.id} className="cal-panel-item">
+                <Check size={12} className="cal-panel-tick" aria-hidden="true" />
+                <span className="cal-panel-name">{task.title}</span>
+              </li>
+            ))}
           </ul>
         </>
       )}

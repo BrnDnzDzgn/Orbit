@@ -268,6 +268,31 @@
   }
 }
 
+/* --- Finished to-dos -------------------------------------------------------
+   Tasks are a different species from dailies, so they take no colour and no
+   dot: a small neutral tick and a count, pushed to the foot of the cell where
+   it can't be mistaken for one of the day's dailies. */
+
+.cal-tasks {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-top: auto;
+  font-size: var(--text-caption);
+  line-height: 1;
+  color: var(--moonlight);
+  font-variant-numeric: tabular-nums;
+}
+
+.cal-panel-tasks-head {
+  margin-top: var(--s-16);
+}
+
+.cal-panel-tick {
+  flex: 0 0 auto;
+  color: var(--moonlight);
+}
+
 /* --- The day panel ---------------------------------------------------------
    What a day held, in words. A reader's panel: nothing in it can be checked,
    edited, or added — completing a daily happens in the Dailies tool, on the
@@ -426,6 +451,11 @@
     flex-direction: column;
     align-items: flex-start;
     gap: var(--s-4);
+  }
+
+  .cal-tasks {
+    flex: 0 0 auto;
+    margin: 0 0 0 auto;
   }
 
   .cal-dot-name {

@@ -3,6 +3,7 @@ import {
   Activity as ActivityIcon,
   CalendarDays,
   Footprints,
+  ListChecks,
   NotebookPen,
   Repeat,
   Settings as SettingsIcon,
@@ -13,6 +14,7 @@ import AppShell from "./shell/AppShell.jsx";
 import TimerTool from "./tools/Timer.jsx";
 import DailiesTool from "./tools/Dailies.jsx";
 import GoalsTool from "./tools/Goals.jsx";
+import TasksTool from "./tools/Tasks.jsx";
 import CalendarTool from "./tools/Calendar.jsx";
 import HabitsTool from "./tools/Habits.jsx";
 import NotesTool from "./tools/Notes.jsx";
@@ -30,6 +32,9 @@ const TOOLS = [
   // Goals sits beside Dailies because they are the two tools you write
   // intentions into; Calendar and Activity read them back.
   { id: "goals", label: "Goals", icon: Target, Component: GoalsTool },
+  // Tasks follows the intention tools as the third thing you write into, but it
+  // is the plain kind: one-off to-dos, outside the practice spine.
+  { id: "tasks", label: "Tasks", icon: ListChecks, Component: TasksTool },
   { id: "calendar", label: "Calendar", icon: CalendarDays, Component: CalendarTool },
   { id: "habits", label: "Habits", icon: Footprints, Component: HabitsTool },
   { id: "activity", label: "Activity", icon: ActivityIcon, Component: ActivityTool },

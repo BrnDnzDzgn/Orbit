@@ -12,6 +12,7 @@ import { downloadFile } from "../lib/download.js";
 import { useGoals } from "../lib/goals.js";
 import { useNotes } from "../lib/notes.js";
 import { useSessions } from "../lib/sessions.js";
+import { useTasks } from "../lib/tasks.js";
 import "./Settings.css";
 
 // Typed out in full before the irreversible thing becomes possible. Short
@@ -29,6 +30,7 @@ const plural = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
 export default function Settings() {
   const dailies = useDailies();
   const goals = useGoals();
+  const tasks = useTasks();
   const sessions = useSessions();
   const notes = useNotes();
 
@@ -45,6 +47,7 @@ export default function Settings() {
   const here = {
     dailies: dailies.items.length,
     goals: goals.items.length,
+    tasks: tasks.items.length,
     sessions: sessions.items.length,
     notebooks: nodes.filter((node) => node.type === "notebook").length,
     pages: nodes.filter((node) => node.type !== "notebook").length,
@@ -55,6 +58,7 @@ export default function Settings() {
     [
       plural(counts.dailies, "daily").replace("dailys", "dailies"),
       plural(counts.goals, "goal"),
+      plural(counts.tasks, "task"),
       plural(counts.sessions, "session"),
       plural(counts.notebooks, "notebook"),
       plural(counts.pages, "page"),
@@ -118,8 +122,8 @@ export default function Settings() {
         <section className="panel">
           <h2 className="panel-title">Full backup</h2>
           <p className="panel-body">
-            Every tool&rsquo;s data as one JSON file &mdash; timer settings, dailies, goals, the
-            session log, completions, and all your notes. This is the file to keep.
+            Every tool&rsquo;s data as one JSON file &mdash; timer settings, dailies, goals, tasks,
+            the session log, completions, and all your notes. This is the file to keep.
           </p>
           <button type="button" className="button button--primary" onClick={exportAll}>
             <Download size={18} aria-hidden="true" />

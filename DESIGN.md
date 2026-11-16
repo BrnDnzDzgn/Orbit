@@ -389,6 +389,12 @@ Visually Notes leans slightly toward the calmer, more spacious end of the produc
 
 Export is two files answering two questions. **JSON** is canonical — the whole tree and every body, and the only thing import reads. **Markdown** is the readable copy: every page under its full path on a `>` line, which is the one line-start a page body can never produce. Neither rewrites a character of what was typed; `**bold**` is four asterisks and a word here, and it leaves as it arrived.
 
+### Tool: Tasks  *(added 2026-11-16)*
+
+One-off to-dos with an optional single level of sub-items. A product surface in the plainest register: a checklist you add to, tick off, and leave. The task and its items are checked independently — items are notes to self, not a progress bar. Finished tasks move into a Completed section that stays closed until asked for, struck through because a finished to-do really is over (unlike a goal, which settles back rather than being struck).
+
+Aurora marks the add action and a finished task's check; a ticked sub-item fills Moonlight, a step quieter. On the Calendar, tasks take **no dot and no colour**: a neutral Moonlight tick and count at the foot of the day, so the dot language stays reserved for dailies.
+
 ### Cut: Skills
 
 Considered and cut (2026-08-31). A hand-maintained list of "skills I have" is a static inventory that doesn't connect to the practice — it rewards no real progress and risks becoming dead weight (Principle 2). If a sense of "what am I getting better at" is wanted later, it should *emerge* from where focus was actually spent (goals and dailies invested in over time), not from a list the person curates. Not on the roadmap.

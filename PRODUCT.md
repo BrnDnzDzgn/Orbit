@@ -36,7 +36,7 @@ Corollary: any tool added to Orbit must earn its place by belonging to the same 
 
 ## Capabilities and Constraints
 
-**Shipped today** — a persistent app shell (left rail on desktop, bottom bar on mobile, top context strip) holding eight tools:
+**Shipped today** — a persistent app shell (left rail on desktop, bottom bar on mobile, top context strip) holding nine tools:
 
 *Timer* ([src/tools/Timer.jsx](src/tools/Timer.jsx), engine in [src/lib/timer.js](src/lib/timer.js)):
 - Configurable focus length, break length, and round count, edited in a modal and locked while running.
@@ -101,6 +101,13 @@ Corollary: any tool added to Orbit must earn its place by belonging to the same 
 - Reads as sentences rather than a grid of stat tiles. A day with no focus still draws its baseline, so gaps read as days not worked rather than as missing data.
 - A day you haven't worked yet does not break a streak; only a finished day without a session does.
 
+*Tasks* ([src/tools/Tasks.jsx](src/tools/Tasks.jsx), store in [src/lib/tasks.js](src/lib/tasks.js)):
+- One-off to-dos (groceries, the dishes), each with an optional flat list of sub-items — one level only. Deliberately outside the practice spine: no timer link, no recurrence, no streak.
+- The task is checked by hand, independently of its sub-items: ticking every item does not finish the task, and finishing the task does not require them. Sub-items are notes to self.
+- Finished tasks drop into a collapsible Completed section and can be reopened. Rename by clicking; items rename the same way, and renaming an item to nothing removes it. Delete has the usual nine-second undo.
+- `orbit:tasks` holds `{ version, items, log }`. A task is done exactly when `doneAt` is a timestamp. `log` maps local days (`YYYY-MM-DD`) to the tasks finished that day, kept apart from the items so deleting a finished task does not rewrite the day it was finished; reopening a task does take its entry back out.
+- The Calendar reads `log` and shows a neutral tick and count per day ("✓ 3"), deliberately not a dot — tasks are not dailies and don't borrow their colour language. The day panel lists the titles. Registered in the Settings backup with its own schema version.
+
 *Notes* ([src/tools/Notes.jsx](src/tools/Notes.jsx), store in [src/lib/notes.js](src/lib/notes.js), export in [src/lib/notesExport.js](src/lib/notesExport.js)):
 - Notebooks hold pages, pages hold sub-pages to any depth. A collapsible tree navigates; the current page fills the canvas. Everything is renameable inline — the page title *is* the rename field, and a tree row renames on double-click.
 - **The tree is flat, with parent pointers** (`{ id, type, parentId, title, createdAt, updatedAt }` keyed by id). Depth is only how far you follow `parentId`, so arbitrary nesting is free and a rename or a move touches one record instead of rewriting a nested structure. It is the shape dailies and goals already use.
@@ -135,7 +142,7 @@ Corollary: any tool added to Orbit must earn its place by belonging to the same 
 
 **Still outstanding:** there is no landing page — the one brand-surface job left, and not a tool. The ProductivityApp → Orbit rename was completed 2026-09-06.
 
-**Rail order** is Timer · Dailies · Goals · Calendar · Habits · Activity · Notes · Settings — the two tools you write intentions into, then the three that read them back, then Notes, which is last because it is the one tool that reads nothing from the others. Goals took the `Target` icon, freed for it when the old Goals tool became Dailies.
+**Rail order** is Timer · Dailies · Goals · Tasks · Calendar · Habits · Activity · Notes · Settings — the two tools you write intentions into, then the three that read them back, then Notes, which is last because it is the one tool that reads nothing from the others. Goals took the `Target` icon, freed for it when the old Goals tool became Dailies.
 
 **Shared stylesheet** (2026-08-31, extended 2026-09-06) — component classes used by more than one tool live in [src/components.css](src/components.css): buttons, icon buttons, text buttons, fields, chips, the composer row, labelled control groups, the undo bar, and the modal dialog. Loaded once from `main.jsx` after the tokens and before any tool, so a tool can always override what it finds there. Tools no longer depend on each other's stylesheets. Order inside that file is load-bearing in two places, and commented as such: a modifier shares the specificity of the class it modifies, so `.button--primary` must follow `.button`, and `.icon-button--small` must follow the coarse-pointer rule it is expected to win against.
 
